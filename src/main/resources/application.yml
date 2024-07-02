@@ -19,11 +19,11 @@ server:
   port: ${SERVER_PORT} 
 logging:
   level:
-   "[org.springframework.web]": INFO
-   
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://${EUREKA_INSTANCE_HOSTNAME}:${EUREKA_PORT}/eureka
+   "[org.springframework.web]": TRACE
+# This will only be useful if this service is within the reach of an eureka server
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://${EUREKA_INSTANCE_HOSTNAME}:${EUREKA_PORT}/eureka
