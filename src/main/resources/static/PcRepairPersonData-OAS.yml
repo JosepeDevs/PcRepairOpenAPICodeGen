@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  title: TallerPcApi
+  description: >-
+    Proyecto planificado API-first con OAS, arquitectura global de
+    microservicios con API Gateway y Eureka server en el que cada microservicio
+    se ha estructurado con arquitectura hexagonal
+  termsOfService: https://josepedevs.com/terms/
+  contact:
+    name: '- Soporte API de tu proyecto - '
+    url: https://www.josepedevs.com/support
+    email: josepedevs@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: https://{personname}.josepedevs.com:{port}/{basePath}
+    description: PRODUCTION SERVER
+    variables:
+      personname:
+        default: person
+        description: >-
+          personname used when you registered on the provider website, role will
+          be checked to restrain access
+      port:
+        enum:
+          - '8443'
+          - '443'
+        default: '8443'
+      basePath:
+        default: v1
+  - url: https://{personname}.josepedevs.com:{port}/{basePath}
+    description: PRE SERVER
+    variables:
+      personname:
+        default: admin
+        description: >-
+          usuario con el que se quieren hacer las pruebas en el server de PRE,
+          se comprobará el rol para limitar el acceso`
+      port:
+        enum:
+          - '8333'
+          - '333'
+        default: '8333'
+      basePath:
+        default: v1
+  - url: https://{personname}.josepedevs.com:{port}/{basePath}
+    description: DEVELOPER SERVER
+    variables:
+      personname:
+        default: admin
+        description: >-
+          usuario con el que se quieren hacer las pruebas a nivel local, si
+          compronbará el rol para limitar el acceso`
+      port:
+        enum:
+          - '8223'
+          - '223'
+        default: '8223'
+      basePath:
+        default: v1
+paths:
+  /persons:
+    post:
+      operationId: createPerson
+      summary: Create a new user data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/persons'
+      responses:
+        '201':
+          description: User data created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/persons'
+        '400':
+          description: Request failed, some data provided was incorrect, missing or wrongly formatted.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/errorMapList'
+    put:
+      operationId: updatePerson
+      summary: Updates an already existing user data
+      parameters:
+        - name: id_person
+          in: query
+          description: primary key 
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/persons'
+      responses:
+        '204':
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/persons'
+        '400':
+          description: Request failed, some data provided was incorrect, missing or wrongly formatted.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/errorMapList'
+    delete:
+      operationId: deletePerson
+      summary: Deletes an already existing user.
+      parameters:
+        - name: id_person
+          in: query
+          description: primary key
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '204':
+          description: user deleted successfully.
+        '400':
+          description: Request failed, some data provided was incorrect, missing or wrongly formatted.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/errorMapList'
+components:
+  schemas:
+    persons:
+      description: User's personal data table
+      type: object
+      required:
+        - id_person
+        - nid_passport
+        - name
+      properties:
+        id_person:
+          type: string
+          format: UUID
+          readOnly: true
+        nid_passport:
+          type: string
+        name:
+          type: string
+    errorMapList:
+      description: >-
+        Schema for exception reporting
+      type: object
+      properties:
+        invalid-params:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              reason:
+                type: string
+            required:
+              - nameOfBadProperty
+              - reasonOrExplanation
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []
