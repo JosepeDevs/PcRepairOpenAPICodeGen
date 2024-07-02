@@ -2,9 +2,7 @@ openapi: 3.0.0
 info:
   title: TallerPcApi
   description: >-
-    Proyecto planificado API-first con OAS, arquitectura global de
-    microservicios con API Gateway y Eureka server en el que cada microservicio
-    se ha estructurado con arquitectura hexagonal
+    Proyecto planificado API-first con OAS, arquitectura hexagonal para el servicio de manejo de datos personales
   termsOfService: https://josepedevs.com/terms/
   contact:
     name: '- Soporte API de tu proyecto - '
