@@ -165,7 +165,7 @@
 			                <goal>generate</goal>
 			            </goals>
 			            <configuration>
-			                <inputSpec>${project.basedir}/src/main/resources/static/pcMicroservice.yaml</inputSpec>
+			                <inputSpec>${project.basedir}/src/main/resources/static/PcRepairPersonData-OAS.yaml</inputSpec>
 		                
 				              <generateApis>true</generateApis>
 					          	<generateModels>true</generateModels>
